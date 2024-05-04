@@ -40,7 +40,17 @@ def download_all_files(download_uris,directory):
         download_files(url,file_path)
 
 
-
+def extract_zip(directory):
+    
+    for file in os.listdir(directory): #get all files in the directory
+        if file.endswith('.zip'):
+            filepath = os.path.join(directory,file) 
+            try:
+                with ZipFile(filepath, 'r') as zippedfile: 
+                    zippedfile.extractall(directory)
+                os.remove(filepath)     #remove the zipped file           
+            except BadZipFile: #catch BAD ZIPFILE
+                print(filepath)
 
 
 
@@ -49,7 +59,7 @@ def download_all_files(download_uris,directory):
 def main(download_uris,directory):
     create_directory(directory)
     download_all_files(download_uris,directory)
-    
+    extract_zip(directory)
     
 
 
