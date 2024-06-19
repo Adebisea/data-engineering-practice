@@ -27,9 +27,25 @@ def download_data(url):
                 f.write(data_resp.content)
 
             return data_url
+        
+def load_data(file):
+    df = pd.read_csv(file)
+
+    # convert column to numeric
+    df['HourlyDryBulbTemperature'] = pd.to_numeric(df['HourlyDryBulbTemperature'], errors='coerce')
+
+    # Get the highest HourlyDryBulbTemperature value
+    Highest_HDBT_value = df['HourlyDryBulbTemperature'].max()
+
+    # Query the DataFrame for all records with the highest HourlyDryBulbTemperature value
+    Highest_HDBT_records = df[df['HourlyDryBulbTemperature'] == Highest_HDBT_value]
+    print(Highest_HDBT_records)
+
 
 def main(url):
-    download_data(url)
+    filename = download_data(url)
+    if filename:
+        load_data(filename)
 
 
 if __name__ == "__main__":
