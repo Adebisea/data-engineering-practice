@@ -18,9 +18,18 @@ def scrape_data(url):
     return csv_file_link
 
 
+def download_data(url):
+        data_url = scrape_data(url)
+        if data_url != None:
+            data_resp = requests.get(url+data_url)
+
+            with open(data_url, 'wb') as f:
+                f.write(data_resp.content)
+
+            return data_url
 
 def main(url):
-    scrape_data(url)
+    download_data(url)
 
 
 if __name__ == "__main__":
